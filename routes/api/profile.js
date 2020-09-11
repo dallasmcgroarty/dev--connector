@@ -9,6 +9,7 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const { remove } = require('../../models/User');
 const { restart } = require('nodemon');
+const Post = require('../../models/Post');
 
 // @route   GET api/profile/me
 // @desc    Get current user's profile
@@ -151,8 +152,9 @@ router.get('/user/:user_id', async (req, res) => {
 // @access  Private
 router.delete('/', auth, async (req, res) => {
   try {
-    //@todo - remove users posts
-
+    // remove users posts
+    await Post.deleteMany({ user: req.user.id });
+    
     // remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
@@ -300,7 +302,7 @@ async (req, res) => {
   }
 });
 
-// @route   DELETE api/profile/experience/:edu_id
+// @route   DELETE api/profile/education/:edu_id
 // @desc    Delete education from profiles
 // @access  Private
 router.delete('/education/:edu_id', auth, async (req, res) => {
