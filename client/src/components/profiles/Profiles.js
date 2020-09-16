@@ -8,7 +8,7 @@ import ProfileItem from './ProfileItem';
 const Profiles = ({ getProfiles, profile: { profiles, loading }}) => {
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]);
   return <Fragment>
       {loading ? <Spinner /> : <Fragment>
       <h1 className="large text-primary">Developers</h1>
